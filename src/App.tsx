@@ -7,7 +7,7 @@ const client = generateClient<Schema>();
 
 function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  const { signOut, username } = useAuthenticator();
+  const { signOut, user } = useAuthenticator();
 
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
@@ -25,9 +25,10 @@ function App() {
 
   return (
     <main>
-      <h1>{username ? `Hey ${username}` : `Not signed in`}</h1>
+      <h1>{user ? `Hey ${user.signInDetails?.loginId}` : `Not signed in`}</h1>
 
       <button onClick={signOut}>Sign out</button>
+      <br/>
       <br/>
       <button onClick={createTodo}>+ new</button>
       <ul>
