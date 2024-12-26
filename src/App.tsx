@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
+import React from "react";
+import { uploadData } from "aws-amplify/storage";
 
 const client = generateClient<Schema>();
 
@@ -23,19 +25,36 @@ function App() {
     client.models.Todo.delete({ id });
   }
 
+  const [file, setFile] = React.useState<any>({ name: ''});
+
+  const handleChange = (event: any) => {
+    setFile(event.target.files[0]);
+  };
+
   return (
     <main>
       <h1>{user ? `Hey ${user.signInDetails?.loginId}` : `Not signed in`}</h1>
 
       <button onClick={signOut}>Sign out</button>
-      <br/>
-      <br/>
+      <br />
+      <br />
       <button onClick={createTodo}>+ new</button>
       <ul>
         {todos.map((todo) => (
           <li onClick={() => deleteTodo(todo.id)} key={todo.id}>{todo.content}</li>
         ))}
       </ul>
+      <input type="file" onChange={handleChange} />
+      <button
+        onClick={() =>
+          uploadData({
+            path: `picture-submissions/${file.name}`,
+            data: file,
+          })
+        }
+      >
+        Upload
+      </button>
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
