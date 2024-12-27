@@ -25,7 +25,7 @@ function App() {
     client.models.Todo.delete({ id });
   }
 
-  const [file, setFile] = React.useState<any>({ name: ''});
+  const [file, setFile] = React.useState<any>({ name: '' });
 
   const handleChange = (event: any) => {
     setFile(event.target.files[0]);
@@ -50,6 +50,9 @@ function App() {
           uploadData({
             path: `picture-submissions/${file.name}`,
             data: file,
+            options: {
+              contentType: "image/png", // contentType is optional
+            },
           })
         }
       >

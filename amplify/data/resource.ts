@@ -12,6 +12,13 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.owner()]),
+  Vouchers: a
+    .model({
+      id: a.id().required(),
+      name: a.string(),
+      imagePath: a.string(),
+    })
+    .authorization((allow) => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
